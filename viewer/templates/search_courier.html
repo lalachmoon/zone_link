@@ -1,0 +1,25 @@
+<html {% if LANGUAGE_CODE %}lang="{{ LANGUAGE_CODE }}" {% endif %}>
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Courier</title>
+</head>
+<body>
+<h1>Courier Search Results</h1>
+
+{% if result %}
+    <ul>
+        {% for r in result %}
+            <li>
+                <strong>{{ r.courier.name }}</strong> - Street: {{ r.street.name }}, Numbers: {{ r.start_number }} to {{ r.end_number }}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No couriers found for your search query.</p>
+{% endif %}
+
+</body>
+</html>
