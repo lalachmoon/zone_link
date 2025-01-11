@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from viewer.models import CourierStreetRange
+import googlemaps
+# from datetime import datetime
 
+gmaps = googlemaps.Client(key="AIzaSyCA0UQ1EUBIqivg6OxBC-vjJZswbpbU1y0")
 
 def home(request):
     return render(request, 'home.html')
