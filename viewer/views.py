@@ -48,19 +48,19 @@ def search_courier(request):
 def zone_mapping(request):
     if request.method == "POST":
         # Replace with your Google API key
-        GOOGLE_MAPS_API_KEY = "YAIzaSyCA0UQ1EUBIqivg6OxBC"
+        GOOGLE_MAPS_API_KEY = "AIzaSyCA0UQ1EUBIqivg6OxBC-vjJZswbpbU1y0"
 
         # Get the location data from the form
-        location = request.POST.get("location", "Brasov")
+        location = request.POST.get("location")
         zoom = request.POST.get("zoom", 12)
 
         # Generate the Static Map API URL
-        map_url = f"https://maps.googleapis.com/maps/api/staticmap?center={location}&zoom={zoom}&size=600x400&key={GOOGLE_MAPS_API_KEY}"
+        map_url = f"https://www.google.com/maps/search/?api=1&query=45.68453939481016%2C25.598650239556875={location}&zoom={zoom}&size=600x400&key={GOOGLE_MAPS_API_KEY}"
 
     return render(request, "map.html", {"map_url": map_url, "location": location})
 
-def interactive_map(request):
-    return render(request, "interactive_map.html")
+# def interactive_map(request):
+#     return render(request, "interactive_map.html")
 
 
 # View to add and list polygons

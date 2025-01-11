@@ -4,18 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4b00ff13-62b2-486e-8f5a-55a76334da08" name="Changes" comment="Added Googlempas to view">
-      <change afterPath="$PROJECT_DIR$/viewer/forms.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/viewer/migrations/0002_polygonmodel.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/viewer/templates/interactive_map.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/viewer/templates/manage_polygons.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/viewer/templates/map.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/viewer/templates/zone_mapping.html" afterDir="false" />
+    <list default="true" id="4b00ff13-62b2-486e-8f5a-55a76334da08" name="Changes" comment="Added settings for Zone mapping">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/interactive_map.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/viewer/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/viewer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/views.py" afterDir="false" />
     </list>
@@ -122,7 +113,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736586034153</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Added settings for Zone mapping">
+      <option name="closed" value="true" />
+      <created>1736600033713</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1736600033713</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -131,6 +130,7 @@
     <MESSAGE value="Added models, search view, basic search template, admin registration, url config" />
     <MESSAGE value="Added Account App, updated base template, updated search function" />
     <MESSAGE value="Added Googlempas to view" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Googlempas to view" />
+    <MESSAGE value="Added settings for Zone mapping" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added settings for Zone mapping" />
   </component>
 </project>
