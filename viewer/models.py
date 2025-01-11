@@ -4,6 +4,8 @@ from django.db.models import CharField, Model, ForeignKey, DO_NOTHING, IntegerFi
 
 # Country model
 class Country(Model):
+    class Meta:
+        verbose_name_plural = 'Countries'
     name = CharField(max_length=100)
 
     def __str__(self):
@@ -12,6 +14,8 @@ class Country(Model):
 
 # County model
 class County(Model):
+    class Meta:
+        verbose_name_plural = 'Counties'
     country = ForeignKey(Country, on_delete=CASCADE)
     name = CharField(max_length=100)
 
@@ -21,6 +25,8 @@ class County(Model):
 
 # City model
 class City(Model):
+    class Meta:
+        verbose_name_plural = 'Cities'
     county = ForeignKey(County, on_delete=CASCADE)
     name = CharField(max_length=100)
 

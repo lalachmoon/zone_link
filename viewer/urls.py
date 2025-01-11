@@ -6,4 +6,5 @@ app_name = 'viewer'
 urlpatterns = [
     path('', views.home, name='home'),
     path('search/', views.search_courier, name='search_courier'),
+    path('subscriptions/', views.subscriptions, name='subscriptions'),
 ]

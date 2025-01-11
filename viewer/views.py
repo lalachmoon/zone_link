@@ -6,6 +6,10 @@ def home(request):
     return render(request, 'home.html')
 
 
+def subscriptions(request):
+    return render(request, 'subscriptions.html')
+
+
 def search_courier(request):
     query = request.GET.get('query', '').strip()
     result = None
