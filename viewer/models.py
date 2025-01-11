@@ -1,5 +1,3 @@
-from django.db import models
-# from django.contrib.gis.db import models as gis_models
 from django.db.models import CharField, Model, ForeignKey, DO_NOTHING, IntegerField, TextField, CASCADE, SET_NULL, \
     PositiveIntegerField
 
@@ -42,7 +40,6 @@ class Neighborhood(Model):
 # Zone model
 class Zone(Model):
     name = CharField(max_length=100)
-    # boundary = gis_models.PolygonField()
 
     def __str__(self):
         return self.name
