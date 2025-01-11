@@ -3,6 +3,9 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
+import googlemaps
+
+gmaps = googlemaps.Client(key="AIzaSyCA0UQ1EUBIqivg6OxBC-vjJZswbpbU1y0")
 
 
 class ProfileView(LoginRequiredMixin, TemplateView):
