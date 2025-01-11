@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4b00ff13-62b2-486e-8f5a-55a76334da08" name="Changes" comment="Added models, search view, basic search template, admin registration, url config">
-      <change afterPath="$PROJECT_DIR$/viewer/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/search_courier.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/search_courier.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zone_link/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/zone_link/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zone_link/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/zone_link/urls.py" afterDir="false" />
-    </list>
+    <list default="true" id="4b00ff13-62b2-486e-8f5a-55a76334da08" name="Changes" comment="Added Account App, updated base template, updated search function" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -89,12 +80,21 @@
       <option name="project" value="LOCAL" />
       <updated>1734888409706</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Added Account App, updated base template, updated search function">
+      <option name="closed" value="true" />
+      <created>1736581718083</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1736581718083</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Project setup" />
     <MESSAGE value="Added models, search view, basic search template, admin registration, url config" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added models, search view, basic search template, admin registration, url config" />
+    <MESSAGE value="Added Account App, updated base template, updated search function" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Account App, updated base template, updated search function" />
   </component>
 </project>

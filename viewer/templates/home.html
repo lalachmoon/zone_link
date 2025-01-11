@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center">
+        <!-- Title Section -->
+        <h1 class="display-4 fw-bold text-primary">Zone Link</h1>
+        <p class="lead text-secondary">
+            Manage logistics data efficiently, including cities, neighborhoods, streets, and couriers.
+        </p>
+    </div>
+
+    <!-- Features Section -->
+    {%if not user.is_authenticated%}
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-8">
+            <ul class="list-group shadow-lg">
+                <li class="list-group-item py-4 d-flex align-items-center">
+                    <i class="bi bi-geo-fill text-primary fs-3 me-3"></i>
+                    <span><strong>MicroZone:</strong> Create your personalized micro-zoning.</span>
+                </li>
+                <li class="list-group-item py-4 d-flex align-items-center">
+                    <i class="bi bi-house-door-fill text-success fs-3 me-3"></i>
+                    <span><strong>Neighborhoods:</strong> Organize and manage neighborhoods in each city.</span>
+                </li>
+                <li class="list-group-item py-4 d-flex align-items-center">
+                    <i class="bi bi-road text-warning fs-3 me-3"></i>
+                    <span><strong>Streets:</strong> Record and manage street details, including numbers and neighborhoods.</span>
+                </li>
+                <li class="list-group-item py-4 d-flex align-items-center">
+                    <i class="bi bi-person-badge-fill text-danger fs-3 me-3"></i>
+                    <span><strong>Couriers:</strong> Assign couriers to specific neighborhoods and manage their information.</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    {%endif%}
+    <!-- Call-to-Action Button -->
+     {% if user.is_authenticated %}
+    <div class="text-center mt-5 mb-5">
+        <a href="{% url 'viewer:search_courier' %}" class="btn btn-primary btn-lg shadow-sm">
+            Search for Couriers
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

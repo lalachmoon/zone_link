@@ -1,0 +1,85 @@
+1. Setting Up Django and Creating a Project
+a. Install Django
+pip install django
+This command installs Django in your Python environment. You can specify the version as well (e.g., pip install django==3.2.9).
+
+b. Start a New Django Project
+django-admin startproject project_name
+This command creates a new Django project with a directory structure that includes the main settings and configuration files.
+
+c. Navigate to the Project Directory
+cd project_name
+Enter the main directory of your Django project to run further commands.
+
+d. Start a Django App
+python manage.py startapp app_name
+Creates a new app within your Django project. An app in Django is a module containing models, views, and templates that work together.
+
+2. Basic Development Commands
+a. Run the Development Server
+python manage.py runserver
+This command starts Django's built-in development server, which allows you to test your application locally (by default, accessible at http://127.0.0.1:8000/).
+
+b. Create the Initial Database Migrations
+python manage.py makemigrations
+Scans your apps for model changes and prepares a migration file to update the database schema.
+
+c. Apply Database Migrations
+python manage.py migrate
+Executes the migrations in the database. This creates or updates the necessary database tables based on your models.
+
+d. Create a Superuser (Admin Account)
+python manage.py createsuperuser
+Sets up an admin user to access the Django admin interface. You'll be prompted for a username, email, and password.
+
+e. Open the Django Shell
+python manage.py shell
+Launches an interactive Python shell in your Django environment, allowing you to interact with models and other project components directly.
+
+3. Database Management Commands
+a. Check Database Migrations
+python manage.py showmigrations
+Displays the migration history and status for each app, allowing you to confirm which migrations have been applied.
+
+b. Roll Back Database Migrations
+python manage.py migrate accounts zero
+Rolls back all migrations for a specific app, resetting its database state. Be careful, as this will drop all tables for that app.
+
+c. Apply Specific Migrations
+python manage.py migrate app_name migration_name
+Executes a specific migration for an app, giving you control over individual migration files.
+
+4. Static Files Management
+a. Collect Static Files
+python manage.py collectstatic
+This command gathers static files (CSS, JavaScript, images, etc.) from each app and places them in a single directory specified in your settings.py. It’s typically used in production.
+
+5. Testing and Debugging
+a. Run Unit Tests
+python manage.py test
+Executes tests defined in your apps to validate functionality. Django will search for tests automatically.
+
+b. Check for Code Errors
+python manage.py check
+Runs Django’s system checks to detect any common issues in your codebase without executing any requests.
+
+6. Managing Data
+a. Load Data from a Fixture
+python manage.py loaddata filename.json
+Loads data into the database from a fixture file, typically JSON. Useful for setting up initial data in the database.
+
+b. Dump Data to a Fixture
+python manage.py dumpdata app_name.model_name > filename.json
+Exports data from a model into a JSON file, which can be used as a fixture for database seeding.
+
+7. Deployment-Related Commands
+a. Collect Static Files for Production
+python manage.py collectstatic
+This command is typically used before deploying to gather all static files in a single directory for serving.
+
+b. Create Custom Commands (Optional)
+If you need custom management commands, you can create them by adding Python scripts within an app_name/management/commands folder.
+
+c. Apply Custom Settings
+export DJANGO_SETTINGS_MODULE=project_name.settings.production
+Exports a specific settings file for different environments, such as production.
