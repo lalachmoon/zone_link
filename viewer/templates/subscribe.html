@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+    <h2 class="text-primary fw-bold mb-4">Subscribe to {{ plan_name }} Plan</h2>
+    <p class="text-secondary mb-4">
+        You're about to subscribe to the <strong>{{ plan_name }}</strong> plan. Enjoy premium features tailored to your needs.
+    </p>
+    <p class="text-success fw-bold">Price: {{ plan_price }}</p>
+
+    <a href="{% url 'viewer:home' %}" class="btn btn-success btn-lg">Confirm Subscription</a>
+</div>
+{% endblock %}

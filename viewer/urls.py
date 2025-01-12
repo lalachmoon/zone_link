@@ -7,4 +7,5 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('search/', views.search_courier, name='search_courier'),
     path('subscriptions/', views.subscriptions, name='subscriptions'),
+    path('subscribe/<str:plan_slug>/', views.subscribe, name='subscribe'),
 ]

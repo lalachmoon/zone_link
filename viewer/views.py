@@ -7,7 +7,46 @@ def home(request):
 
 
 def subscriptions(request):
-    return render(request, 'subscriptions.html')
+    plans = [
+        {
+            'name': 'Basic',
+            'description': 'Full access',
+            'price': '$120/month',
+            'slug': 'basic',
+        },
+        {
+            'name': 'Professional',
+            'description': 'Full access',
+            'price': '$560/half year',
+            'slug': 'professional',
+        },
+        {
+            'name': 'Enterprise',
+            'description': 'Full access',
+            'price': '$1000/month',
+            'slug': 'enterprise',
+        },
+
+    ]
+
+    return render(request, 'subscriptions.html', {'plans': plans})
+
+
+def subscribe(request, plan_slug):
+    plans = {
+        'basic': {'name': 'Basic', 'price': '$120/month'},
+        'professional': {'name': 'Professional', 'price': '$560/half year'},
+        'enterprise': {'name': 'Enterprise', 'price': '$1000/year'},
+    }
+    selected_plan = plans.get(plan_slug, None)
+    if not selected_plan:
+        return render(request, '404.html')
+
+    # Pass individual plan fields
+    return render(request, 'subscribe.html', {
+        'plan_name': selected_plan['name'],
+        'plan_price': selected_plan['price']
+    })
 
 
 def search_courier(request):

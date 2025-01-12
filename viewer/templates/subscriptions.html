@@ -10,39 +10,19 @@
     </div>
 
     <div class="row justify-content-center">
-        <!-- Subscription Plans -->
+        <!-- Loop through the subscription plans dynamically -->
+        {% for plan in plans %}
         <div class="col-md-4">
             <div class="card shadow mb-4">
                 <div class="card-body text-center">
-                    <h5 class="card-title text-primary fw-bold">Basic</h5>
-                    <p class="card-text text-secondary">Complete access to all tools.</p>
-                    <p class="text-success fw-bold">$120/month</p>
-                    <a href="#" class="btn btn-outline-primary btn-sm">Subscribe</a>
+                    <h5 class="card-title text-primary fw-bold">{{ plan.name }}</h5>
+                    <p class="card-text text-secondary">{{ plan.description }}</p>
+                    <p class="text-success fw-bold">{{ plan.price }}</p>
+                    <a href="{% url 'viewer:subscribe' plan.slug %}" class="btn btn-outline-primary btn-sm">Subscribe</a>
                 </div>
             </div>
         </div>
-
-        <div class="col-md-4">
-            <div class="card shadow mb-4">
-                <div class="card-body text-center">
-                    <h5 class="card-title text-primary fw-bold">Professional</h5>
-                    <p class="card-text text-secondary">Complete access to all tools.</p>
-                    <p class="text-success fw-bold">$560/ 6 months</p>
-                    <a href="#" class="btn btn-outline-primary btn-sm">Subscribe</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card shadow mb-4">
-                <div class="card-body text-center">
-                    <h5 class="card-title text-primary fw-bold">Enterprise</h5>
-                    <p class="card-text text-secondary">Complete access to all tools.</p>
-                    <p class="text-success fw-bold">$1000/year</p>
-                    <a href="#" class="btn btn-outline-primary btn-sm">Subscribe</a>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
