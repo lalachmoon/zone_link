@@ -1,6 +1,7 @@
 from django.db.models import CharField, Model, ForeignKey, DO_NOTHING, IntegerField, TextField, CASCADE, SET_NULL, \
     PositiveIntegerField
-from django.db import models
+# from django.db import models
+import json
 
 
 # Country model
@@ -58,7 +59,7 @@ class Street(Model):
 
 # Courier model
 class Courier(Model):
-    name = CharField(max_length=100)
+    name = CharField(max_length=255)
     zone = ForeignKey(Zone, on_delete=SET_NULL, null=True, blank=True)
 
     def __str__(self):
@@ -84,9 +85,19 @@ class CourierStreetRange(Model):
         help_text='Specify if the courier serves all numbers, only even numbers or only odd numbers'
     )
 
-class PolygonModel(models.Model):
-    name = models.CharField(max_length=100)  # Name of the polygon (e.g., "Polygon 1")
-    coordinates = models.JSONField()  # To store polygon coordinates as a dictionary
+
     def __str__(self):
         return f'{self.courier.name}, ({self.start_number}-{self.end_number})'
+
+
+# # de setat legatura la Curier pentru poligoane
+# class Polygon(models.Model):
+#     courier = models.ForeignKey(Courier, related_name='polygons', on_delete=models.CASCADE)
+#     name = models.CharField(max_length=255)
+#     coordinates = models.JSONField()  # Stores polygon coordinates as a JSON list
+#
+#     def __str__(self):
+#         return f"{self.name} - {self.courier.name}"
+
+
 

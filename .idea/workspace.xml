@@ -4,11 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4b00ff13-62b2-486e-8f5a-55a76334da08" name="Changes" comment="Added settings for Zone mapping">
+    <list default="true" id="4b00ff13-62b2-486e-8f5a-55a76334da08" name="Changes" comment="small change on urls and on map_url">
+      <change afterPath="$PROJECT_DIR$/viewer/migrations/0003_polygon_delete_polygonmodel.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/viewer/migrations/0004_alter_courier_name_delete_polygon.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/interactive_map.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/map.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/map.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/zone_mapping.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/viewer/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/viewer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zone_link/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/zone_link/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zone_link/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/zone_link/urls.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,7 +129,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736600033713</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="small change on urls and on map_url">
+      <option name="closed" value="true" />
+      <created>1736602710554</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1736602710554</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -131,6 +147,23 @@
     <MESSAGE value="Added Account App, updated base template, updated search function" />
     <MESSAGE value="Added Googlempas to view" />
     <MESSAGE value="Added settings for Zone mapping" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added settings for Zone mapping" />
+    <MESSAGE value="small change on urls and on map_url" />
+    <option name="LAST_COMMIT_MESSAGE" value="small change on urls and on map_url" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/zone_link/urls.py</url>
+          <line>32</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/zone_link/urls.py</url>
+          <line>23</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

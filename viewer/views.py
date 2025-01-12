@@ -1,15 +1,15 @@
 from django.shortcuts import render
 from viewer.models import CourierStreetRange
-from django.http import HttpResponse
-import requests
+from .models import Courier
+import json
 import googlemaps
 # from datetime import datetime
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from .models import PolygonModel
-from .forms import PolygonForm
+# from .models import Polygon
 
 gmaps = googlemaps.Client(key="AIzaSyCA0UQ1EUBIqivg6OxBC-vjJZswbpbU1y0")
+
 
 def home(request):
     return render(request, 'home.html')
@@ -32,74 +32,36 @@ def search_courier(request):
             result = [
                 r for r in result
                 if r.number_type == 'all' or
-                (r.number_type == 'even' and number % 2 == 0) or
-                (r.number_type == 'odd' and number % 2 != 0)
+                   (r.number_type == 'even' and number % 2 == 0) or
+                   (r.number_type == 'odd' and number % 2 != 0)
             ]
         except ValueError:
             result = None
 
     return render(request, 'search_courier.html', {'result': result, 'query': query})
 
+def map(request):
+    return render(request, 'map.html')
 
-# def zone_mapping(request):
-#     pass
-
-
-def zone_mapping(request):
-    if request.method == "POST":
-        # Replace with your Google API key
-        GOOGLE_MAPS_API_KEY = "AIzaSyCA0UQ1EUBIqivg6OxBC-vjJZswbpbU1y0"
-
-        # Get the location data from the form
-        location = request.POST.get("location")
-        zoom = request.POST.get("zoom", 12)
-
-        # Generate the Static Map API URL
-        map_url = f"https://www.google.com/maps/search/?api=1&query=45.68453939481016%2C25.598650239556875={location}&zoom={zoom}&size=600x400&key={GOOGLE_MAPS_API_KEY}"
-
-    return render(request, "map.html", {"map_url": map_url, "location": location})
-
-# def interactive_map(request):
-#     return render(request, "interactive_map.html")
+# def map(request):
+#     polygons = Polygon.objects.filter(user=request.user)
+#     polygon_data = [{"coordinates": polygon.coordinates} for polygon in polygons]
+#     return render(request, 'map.html',
+#                   {'google_maps_api_key': 'AIzaSyCA0UQ1EUBIqivg6OxBC-vjJZswbpbU1y0', 'polygon_data': polygon_data})
 
 
-# View to add and list polygons
-def manage_polygons(request):
-    if request.method == "POST":
-        form = PolygonForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('manage_polygons')
-    else:
-        form = PolygonForm()
+def save_polygons(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        for courier_data in data:
+            courier_name = courier_data.get('name')
+            courier, created = Courier.objects.get_or_create(name=courier_name)
 
-    # Fetch all polygons to display them on the map
-    polygons = PolygonModel.objects.all()
-    polygon_data = [
-        {
-            "name": polygon.name,
-            "coordinates": polygon.coordinates
-        }
-        for polygon in polygons
-    ]
+            for polygon_data in courier_data.get('polygonData', []):
+                Polygon.objects.create(
+                    courier=courier,
+                    name=f"{courier_name} Polygon",
+                    coordinates=polygon_data
+                )
 
-    return render(request, "manage_polygons.html", {
-        "form": form,
-        "polygon_data": polygon_data,
-    })
-
-# API to dynamically fetch polygon coordinates
-def get_polygons(request):
-    polygons = PolygonModel.objects.all()
-    polygon_data = [
-        {
-            "name": polygon.name,
-            "coordinates": polygon.coordinates
-        }
-        for polygon in polygons
-    ]
-    return JsonResponse({"polygons": polygon_data})
-
-
-
-
+        return JsonResponse({'message': 'Polygons saved successfully!'})

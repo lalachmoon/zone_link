@@ -6,7 +6,5 @@ app_name = 'viewer'
 urlpatterns = [
     path('', views.home, name='home'),
     path('search/', views.search_courier, name='search_courier'),
-    path('zone_mapping/', views.zone_mapping, name='zone_mapping'),
-    path('polygons/', views.manage_polygons, name='manage_polygons'),
-    path('api/polygons/', views.get_polygons, name='get_polygons'),
+    path('map/', views.map, name='map'),
 ]

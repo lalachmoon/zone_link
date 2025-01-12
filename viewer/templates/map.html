@@ -3,27 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Map</title>
+    <title>Draw Polygons</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCA0UQ1EUBIqivg6OxBC-vjJZswbpbU1y0&libraries=drawing,places&callback=initMap" async defer></script>
+    <script>
+        let map, drawingManager, polygonArray = [], couriers = [];
+
+        // Initializes the map and the drawing manager
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 45.68453, lng: 25.59865},
+                zoom: 15
+            });
+
+            // Set up the drawing manager to draw polygons
+            drawingManager = new google.maps.drawing.DrawingManager({
+                drawingMode: google.maps.drawing.OverlayType.POLYGON,
+                drawingControl: true,
+                drawingControlOptions: {
+                    position: google.maps.ControlPosition.TOP_CENTER,
+                    drawingModes: ['polygon']
+                },
+                polygonOptions: {
+                    fillColor: '#ffff00',
+                    fillOpacity: 0.35,
+                    strokeColor: '#000000',
+                    strokeWeight: 2
+                }
+            });
+
+            drawingManager.setMap(map);
+
+            google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon) {
+                polygonArray.push(polygon);
+                let coordinates = polygon.getPath().getArray().map(coord => ({
+                    lat: coord.lat(),
+                    lng: coord.lng()
+                }));
+
+                // Store polygon data along with courier name
+                let courierName = prompt('Enter Courier Name for this polygon:');
+                couriers.push({name: courierName, polygonData: coordinates});
+            });
+        }
+
+        // Function to save polygons to the server
+        function savePolygons() {
+            fetch('/save-polygons/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: JSON.stringify(couriers)
+            })
+            .then(response => response.json())
+            .then(data => alert('Polygons saved successfully!'))
+            .catch(error => console.error('Error saving polygons:', error));
+        }
+    </script>
 </head>
-<body>
-    <h1>Google Map Viewer</h1>
-
-    <!-- Input Form -->
-    <form method="POST">
+<body onload="initMap()">
+    <h1>Draw Polygons for Couriers</h1>
+    <div id="map" style="height: 600px; width: 100%;"></div>
+    <form method="POST" onsubmit="event.preventDefault(); savePolygons();">
         {% csrf_token %}
-        <label for="location">Enter Location:</label>
-        <input type="text" name="location" id="location" placeholder="e.g., Brasov">
-
-        <label for="zoom">Zoom Level (1-20):</label>
-        <input type="number" name="zoom" id="zoom" min="1" max="20" value="12">
-
-        <button type="submit">Zone Mapping</button>
+        <button type="submit">Save Polygons</button>
     </form>
-
-    <!-- Map Display -->
-    {% if map_url %}
-        <h2>Map for "{{ location }}"</h2>
-        <img src="{{ map_url }}" alt="Google Map of {{ location }}">
-    {% endif %}
 </body>
 </html>
