@@ -3,71 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Draw Polygons</title>
+    <title>Manage Polygons</title>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCA0UQ1EUBIqivg6OxBC-vjJZswbpbU1y0&libraries=drawing,places&callback=initMap" async defer></script>
     <script>
-        let map, drawingManager, polygonArray = [], couriers = [];
+        let map, drawingManager;
+        let polygons = [];  // Array to store all polygons drawn on the map
+        let selectedPolygon = null;  // Track the selected polygon
+        let polygonName = "";  // Store name for the new polygon
 
-        // Initializes the map and the drawing manager
+        function getCookie(name) {
+          if (!document.cookie) {
+            return null;
+          }
+
+          const xsrfCookies = document.cookie.split(';')
+            .map(c => c.trim())
+            .filter(c => c.startsWith(name + '='));
+
+          if (xsrfCookies.length === 0) {
+            return null;
+          }
+          return decodeURIComponent(xsrfCookies[0].split('=')[1]);
+        }
+
+        // Initialize the map and drawing manager
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: 45.68453, lng: 25.59865},
+                center: { lat: 45.68453, lng: 25.59865 },
                 zoom: 15
             });
 
-            // Set up the drawing manager to draw polygons
             drawingManager = new google.maps.drawing.DrawingManager({
                 drawingMode: google.maps.drawing.OverlayType.POLYGON,
                 drawingControl: true,
                 drawingControlOptions: {
                     position: google.maps.ControlPosition.TOP_CENTER,
                     drawingModes: ['polygon']
-                },
-                polygonOptions: {
-                    fillColor: '#ffff00',
-                    fillOpacity: 0.35,
-                    strokeColor: '#000000',
-                    strokeWeight: 2
                 }
             });
 
             drawingManager.setMap(map);
 
+            // Listen for the completion of a polygon drawing
             google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon) {
-                polygonArray.push(polygon);
-                let coordinates = polygon.getPath().getArray().map(coord => ({
-                    lat: coord.lat(),
-                    lng: coord.lng()
-                }));
+                polygons.push(polygon);  // Add the drawn polygon to the polygons array
+                polygon.setEditable(true);  // Allow the polygon to be edited
+                polygon.addListener('click', function() {
+                    selectPolygon(polygon);  // Select polygon on click
+                });
 
-                // Store polygon data along with courier name
-                let courierName = prompt('Enter Courier Name for this polygon:');
-                couriers.push({name: courierName, polygonData: coordinates});
+                // Ask the user to name and save the polygon after it's drawn
+                const polygonName = prompt("Enter a name for this polygon:");
+                if (polygonName) {
+                    savePolygon(polygon, polygonName);  // Save the polygon with the name
+                }
             });
         }
 
-        // Function to save polygons to the server
-        function savePolygons() {
+        // Save the selected polygon to the database
+        function savePolygon(polygon, name) {
+            const polygonCoordinates = polygon.getPath().getArray().map(coord => ({
+                lat: coord.lat(),
+                lng: coord.lng()
+            }));
+
+            const polygonData = {
+                name: name,
+                coordinates: polygonCoordinates
+            };
+
             fetch('/save-polygons/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-                },
-                body: JSON.stringify(couriers)
+
+                    },
+                body: JSON.stringify({ polygonData })
             })
             .then(response => response.json())
-            .then(data => alert('Polygons saved successfully!'))
-            .catch(error => console.error('Error saving polygons:', error));
+            .then(data => {
+                alert('Polygon saved successfully!');
+                updatePolygonList();  // Update the dropdown list with the newly saved polygon
+            })
+            .catch(error => console.error('Error saving polygon:', error));
+        }
+
+        // Update the dropdown list with all polygons
+        function updatePolygonList() {
+            const polygonList = document.getElementById("polygonList");
+            polygonList.innerHTML = "";  // Clear existing options
+
+            fetch('/get-polygons/', { method: 'GET' })
+            .then(response => response.json())
+            .then(data => {
+                // Check if there are any polygons and update the dropdown
+                if (data.polygons.length > 0) {
+                    data.polygons.forEach((polygon) => {
+                        const option = document.createElement("option");
+                        option.value = polygon.id;
+                        option.text = polygon.name;
+                        polygonList.appendChild(option);
+                    });
+                } else {
+                    const option = document.createElement("option");
+                    option.text = "No polygons available";
+                    polygonList.appendChild(option);
+                }
+            })
+            .catch(error => console.error('Error fetching polygons:', error));
+        }
+
+        // Edit the selected polygon's coordinates
+        function editPolygon() {
+            const polygonId = document.getElementById('polygonList').value;
+            if (!polygonId) {
+                alert('Please select a polygon to edit!');
+                return;
+            }
+
+            const newCoordinates = prompt("Enter new coordinates as an array (e.g. [[lat1, lng1], [lat2, lng2], ...]):");
+            if (newCoordinates) {
+                const parsedCoordinates = JSON.parse(newCoordinates);
+                fetch(`/polygon/edit/${polygonId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+
+                    },
+                    body: JSON.stringify({ coordinates: parsedCoordinates })
+                })
+                .then(response => response.json())
+                .then(data => alert('Polygon updated successfully!'))
+                .catch(error => console.error('Error updating polygon:', error));
+            }
+        }
+
+        // Delete the selected polygon from the map and database
+        function deletePolygon() {
+            const polygonId = document.getElementById('polygonList').value;
+            if (!polygonId) {
+                alert('Please select a polygon to delete!');
+                return;
+            }
+
+            if (confirm('Are you sure you want to delete this polygon?')) {
+                fetch(`/polygon/delete/${polygonId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Polygon deleted successfully!');
+                    updatePolygonList();  // Remove the polygon from the dropdown list
+                })
+                .catch(error => console.error('Error deleting polygon:', error));
+            }
         }
     </script>
 </head>
 <body onload="initMap()">
-    <h1>Draw Polygons for Couriers</h1>
+    <h1>Draw and Manage Polygons</h1>
+
     <div id="map" style="height: 600px; width: 100%;"></div>
-    <form method="POST" onsubmit="event.preventDefault(); savePolygons();">
-        {% csrf_token %}
-        <button type="submit">Save Polygons</button>
-    </form>
+
+    <br><br>
+    <div>
+        <label for="polygonList">Select a polygon to edit or delete:</label>
+        <select id="polygonList">
+            <!-- Options will be dynamically added here -->
+        </select>
+    </div>
+
+    <br>
+    <button onclick="editPolygon()">Edit Polygon</button>
+    <button onclick="deletePolygon()">Delete Polygon</button>
 </body>
 </html>

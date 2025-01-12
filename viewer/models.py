@@ -1,6 +1,7 @@
 from django.db.models import CharField, Model, ForeignKey, DO_NOTHING, IntegerField, TextField, CASCADE, SET_NULL, \
     PositiveIntegerField
-# from django.db import models
+from django.db import models
+from django.db.models import JSONField
 import json
 
 
@@ -91,13 +92,13 @@ class CourierStreetRange(Model):
 
 
 # # de setat legatura la Curier pentru poligoane
-# class Polygon(models.Model):
-#     courier = models.ForeignKey(Courier, related_name='polygons', on_delete=models.CASCADE)
-#     name = models.CharField(max_length=255)
-#     coordinates = models.JSONField()  # Stores polygon coordinates as a JSON list
-#
-#     def __str__(self):
-#         return f"{self.name} - {self.courier.name}"
+class Polygon(models.Model):
+    courier = models.ForeignKey(Courier, related_name='polygons', on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    coordinates = JSONField()  # Stores polygon coordinates as a JSON list
+
+    def __str__(self):
+        return f"{self.name} - {self.courier.name}"
 
 
 

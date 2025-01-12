@@ -1,12 +1,11 @@
 from django.shortcuts import render
 from viewer.models import CourierStreetRange
-from .models import Courier
+from .models import Courier, Polygon
 import json
 import googlemaps
 # from datetime import datetime
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
-# from .models import Polygon
 
 gmaps = googlemaps.Client(key="AIzaSyCA0UQ1EUBIqivg6OxBC-vjJZswbpbU1y0")
 
@@ -40,8 +39,12 @@ def search_courier(request):
 
     return render(request, 'search_courier.html', {'result': result, 'query': query})
 
+
 def map(request):
-    return render(request, 'map.html')
+    couriers = Courier.objects.all()
+    polygons = Polygon.objects.all()
+    return render(request, 'map.html', {'couriers': couriers, 'polygons': polygons})
+
 
 # def map(request):
 #     polygons = Polygon.objects.filter(user=request.user)
@@ -53,15 +56,42 @@ def map(request):
 def save_polygons(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        for courier_data in data:
-            courier_name = courier_data.get('name')
-            courier, created = Courier.objects.get_or_create(name=courier_name)
+        polygon_data = data.get('polygonData')
 
-            for polygon_data in courier_data.get('polygonData', []):
-                Polygon.objects.create(
-                    courier=courier,
-                    name=f"{courier_name} Polygon",
-                    coordinates=polygon_data
-                )
+        # Use a default courier or customize as needed
+        courier_name = "Default Courier"
+        courier, created = Courier.objects.get_or_create(name=courier_name)
 
-        return JsonResponse({'message': 'Polygons saved successfully!'})
+        # Create the new polygon with the name and coordinates provided
+        polygon = Polygon.objects.create(
+            courier=courier,
+            name=polygon_data['name'],
+            coordinates=polygon_data['coordinates']
+        )
+
+        return JsonResponse({'message': 'Polygon saved successfully!'})
+
+
+def edit_polygon(request, polygon_id):
+    if request.method == 'POST':
+        polygon = get_object_or_404(Polygon, id=polygon_id)
+        data = json.loads(request.body)
+        polygon.coordinates = data['coordinates']  # Update polygon coordinates
+        polygon.save()
+        return JsonResponse({'message': 'Polygon updated successfully!'})
+
+
+def delete_polygon(request, polygon_id):
+    if request.method == 'POST':
+        polygon = get_object_or_404(Polygon, id=polygon_id)
+        polygon.delete()  # Delete the polygon from the database
+        return JsonResponse({'message': 'Polygon deleted successfully!'})
+
+
+def get_polygons(request):
+    # Fetch all polygons and return them in JSON format for the frontend
+    polygons = Polygon.objects.all()
+    polygons_data = [
+        {"id": polygon.id, "name": polygon.name} for polygon in polygons
+    ]
+    return JsonResponse({'polygons': polygons_data})
