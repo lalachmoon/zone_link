@@ -35,9 +35,9 @@
         <h2 class="text-center">Courier Search</h2>
 
         <!-- Search Form -->
-        <form method="get" class="mt-4">
+        <form method="get" class="mt-4 d-flex">
             <div class="input-group">
-                <input type="text" name="query" class="form-control" placeholder="Enter street and number" value="{{ query|default:'' }}">
+                <input type="text" name="query" class="form-control me-2" placeholder="Enter street and number" value="{{ query|default:'' }}">
                 <button type="submit" class="btn btn-primary">Search</button>
             </div>
         </form>
@@ -49,7 +49,12 @@
             {% if result %}
                 <ul class="list-group">
                     {% for item in result %}
-                        <li class="list-group-item">{{ item }}</li>
+                        <li class="list-group-item">
+                        <strong>Street:</strong> {{ item.street.name }}<br>
+                        <strong>Number Range:</strong> {{ item.start_number }} - {{ item.end_number }}<br>
+                        <strong>Zone:</strong> {{ item.zone }}<br>
+                        <strong>Courier:</strong> {{ item.courier.name }}
+                    </li>
                     {% endfor %}
                 </ul>
             {% else %}

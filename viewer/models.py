@@ -88,7 +88,9 @@ class CourierStreetRange(Model):
         default='all',
         help_text='Specify if the courier serves all numbers, only even numbers or only odd numbers'
     )
+    zone = CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
-        return f'{self.courier.name}, ({self.start_number}-{self.end_number})'
+        return f'{self.courier.name}, ({self.start_number}-{self.end_number}), {self.zone}'
+
 
