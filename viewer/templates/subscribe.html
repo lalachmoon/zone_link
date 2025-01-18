@@ -4,10 +4,28 @@
 <div class="container mt-5 text-center">
     <h2 class="text-primary fw-bold mb-4">Subscribe to {{ plan_name }} Plan</h2>
     <p class="text-secondary mb-4">
-        You're about to subscribe to the <strong>{{ plan_name }}</strong> plan. Enjoy premium features tailored to your needs.
+        You're about to subscribe to the <strong>{{ plan_name }}</strong> plan. Enjoy premium features.
     </p>
     <p class="text-success fw-bold">Price: {{ plan_price }}</p>
 
-    <a href="{% url 'viewer:home' %}" class="btn btn-success btn-lg">Confirm Subscription</a>
+    <form method="POST" action="{% url 'viewer:confirm_subscription' %}">
+        {% csrf_token %}
+        <div class="mb-3">
+            <input type="text" class="form-control" id="name" name="name" required placeholder="Enter your full name">
+        </div>
+        <div class="mb-3">
+            <input type="email" class="form-control" id="email" name="email" required placeholder="Enter your email">
+        </div>
+        <div class="mb-3">
+            <select class="form-select" id="payment_method" name="payment_method" required>
+                <option value="credit_card">Credit Card</option>
+                <option value="paypal">PayPal</option>
+                <option value="bank_transfer">Bank Transfer</option>
+            </select>
+        </div>
+        <input type="hidden" name="plan_name" value="{{ plan_name }}">
+        <input type="hidden" name="plan_price" value="{{ plan_price }}">
+        <button type="submit" class="btn btn-primary btn-lg">Confirm Subscription</button>
+    </form>
 </div>
 {% endblock %}

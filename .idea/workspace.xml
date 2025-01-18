@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4b00ff13-62b2-486e-8f5a-55a76334da08" name="Changes" comment="fixed input search &#10;added subscription&#10;fixed drop down for Account(login, profile, logout) &#10;added zone in courier range model">
+    <list default="true" id="4b00ff13-62b2-486e-8f5a-55a76334da08" name="Changes" comment="Added subscribe.html&#10;Provided subscribe simulation">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewer/templates/subscriptions.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/subscriptions.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/subscribe.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/subscribe.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/viewer/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/viewer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zone_link/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/zone_link/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,7 +127,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736677115152</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Added subscribe.html&#10;Provided subscribe simulation">
+      <option name="closed" value="true" />
+      <created>1736688182844</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1736688182844</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -135,6 +144,7 @@
     <MESSAGE value="Added Account App, updated base template, updated search function" />
     <MESSAGE value="requirements.txt" />
     <MESSAGE value="fixed input search &#10;added subscription&#10;fixed drop down for Account(login, profile, logout) &#10;added zone in courier range model" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed input search &#10;added subscription&#10;fixed drop down for Account(login, profile, logout) &#10;added zone in courier range model" />
+    <MESSAGE value="Added subscribe.html&#10;Provided subscribe simulation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added subscribe.html&#10;Provided subscribe simulation" />
   </component>
 </project>

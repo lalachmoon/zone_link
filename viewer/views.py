@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from viewer.models import CourierStreetRange
+from django.core.mail import send_mail
 
 
 def home(request):
@@ -23,7 +24,7 @@ def subscriptions(request):
         {
             'name': 'Enterprise',
             'description': 'Full access',
-            'price': '$1000/month',
+            'price': '$1000/year',
             'slug': 'enterprise',
         },
 
@@ -47,6 +48,45 @@ def subscribe(request, plan_slug):
         'plan_name': selected_plan['name'],
         'plan_price': selected_plan['price']
     })
+
+
+def confirm_subscription(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        payment_method = request.POST.get('payment_method')
+        plan_name = request.POST.get('plan_name')
+        plan_price = request.POST.get('plan_price')
+
+        # Send confirmation email
+        subject = f'Subscription Confirmation - {plan_name} Plan'
+        message = (
+            f'Hi {name},\n\n'
+            f'Thank you for subscribing to the {plan_name} plan!\n\n'
+            f'You will shortly receive the Admin Loging Details\n\n'
+            f'Plan Details:\n'
+            f'Plan Name: {plan_name}\n'
+            f'Price Paid: {plan_price}\n'
+            f'Payment Method: {payment_method}\n\n'
+            f'Best regards,\n'
+            f'Zone Link Team'
+        )
+        from_email = 'chejneanulaura21@gmail.com'
+        recipient_list = [email]
+
+        # Send the email
+        send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+
+        # Render the confirmation template
+        return render(request, 'subscription_success.html', {
+            'name': name,
+            'email': email,
+            'payment_method': payment_method,
+            'plan_name': plan_name,
+            'plan_price': plan_price,
+        })
+
+    return redirect('viewer:home')
 
 
 def search_courier(request):
