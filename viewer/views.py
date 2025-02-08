@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from viewer.models import CourierStreetRange
+from viewer.models import CourierStreetRange, Zone, ZoneAllocation
 from .models import Courier, Polygon
 import json
 import googlemaps
@@ -63,12 +63,15 @@ def save_polygons(request):
         courier, created = Courier.objects.get_or_create(name=courier_name)
 
         # Create the new polygon with the name and coordinates provided
-        polygon = Polygon.objects.create(
-            courier=courier,
+        zone = Zone.objects.create(
             name=polygon_data['name'],
-            coordinates=polygon_data['coordinates']
+            coordinates= polygon_data['coordinates']
         )
 
+        zone_allocation = ZoneAllocation.objects.create(
+            zone=zone,
+            courier=courier,
+        )
         return JsonResponse({'message': 'Polygon saved successfully!'})
 
 
@@ -90,7 +93,7 @@ def delete_polygon(request, polygon_id):
 
 def get_polygons(request):
     # Fetch all polygons and return them in JSON format for the frontend
-    polygons = Polygon.objects.all()
+    polygons = Zone.objects.all()
     polygons_data = [
         {"id": polygon.id, "name": polygon.name} for polygon in polygons
     ]
