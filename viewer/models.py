@@ -93,7 +93,7 @@ class CourierStreetRange(Model):
 
 # # de setat legatura la Curier pentru poligoane
 class Polygon(models.Model):
-    courier = models.ForeignKey(Courier, related_name='polygons', on_delete=models.CASCADE)
+    courier = models.ForeignKey(Zone, related_name='polygons', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     coordinates = JSONField()  # Stores polygon coordinates as a JSON list
 
