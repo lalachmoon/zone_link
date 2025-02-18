@@ -11,4 +11,5 @@ urlpatterns = [
     path('polygon/edit/<int:polygon_id>/', views.edit_polygon, name='edit_polygon'),
     path('polygon/delete/<int:polygon_id>/', views.delete_polygon, name='delete_polygon'),
     path('get-polygons/', views.get_polygons, name='get_polygons'),
+    path('get-polygon/<str:polygon_name>/', views.get_polygon, name='get_polygon'),
 ]

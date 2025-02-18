@@ -98,3 +98,7 @@ def get_polygons(request):
         {"id": polygon.id, "name": polygon.name} for polygon in polygons
     ]
     return JsonResponse({'polygons': polygons_data})
+
+def get_polygon(request, polygon_name):
+    polygon = Zone.objects.get(name=polygon_name)
+    return JsonResponse({'polygon': {"id": polygon.id, "name": polygon.name, "coordinates": polygon.coordinates}})

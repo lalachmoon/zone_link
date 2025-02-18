@@ -7,6 +7,9 @@
     <list default="true" id="4b00ff13-62b2-486e-8f5a-55a76334da08" name="Changes" comment="Refactored db models, fixed polygon saving and created new migrations">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/templates/map.html" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/templates/map.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viewer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/viewer/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,7 +145,9 @@
       <workItem from="1739010964387" duration="11902000" />
       <workItem from="1739863305650" duration="36000" />
       <workItem from="1739863396994" duration="21000" />
-      <workItem from="1739863432698" duration="1741000" />
+      <workItem from="1739863432698" duration="1987000" />
+      <workItem from="1739875968764" duration="1676000" />
+      <workItem from="1739893848726" duration="2409000" />
     </task>
     <task id="LOCAL-00001" summary="Project setup">
       <option name="closed" value="true" />
@@ -232,7 +237,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739014803664</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Refactored db models, fixed polygon saving and created new migrations">
+      <option name="closed" value="true" />
+      <created>1739869371752</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1739869371752</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -250,17 +263,6 @@
     <MESSAGE value="Maps and draw polygons redesinged without token error" />
     <MESSAGE value="Refactored db models, fixed polygon saving and created new migrations" />
     <option name="LAST_COMMIT_MESSAGE" value="Refactored db models, fixed polygon saving and created new migrations" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/viewer/templates/map.html</url>
-          <line>96</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/manage_py$views.coverage" NAME="views Coverage Results" MODIFIED="1737797485118" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/viewer" />

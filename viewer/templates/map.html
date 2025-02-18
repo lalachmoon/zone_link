@@ -13,21 +13,19 @@
 
         function getCookie(name) {
             let cookieValue = null;
-                if (document.cookie && document.cookie !== '') {
-                    const cookies = document.cookie.split(';');
-                    for (let i = 0; i < cookies.length; i++) {
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
                     const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
             }
+            return cookieValue;
         }
-    }
-    return cookieValue;
-}
-const csrftoken = getCookie('csrftoken');
-
+        const csrftoken = getCookie('csrftoken');
 
         // Initialize the map and drawing manager
         function initMap() {
@@ -61,6 +59,9 @@ const csrftoken = getCookie('csrftoken');
                     savePolygon(polygon, polygonName);  // Save the polygon with the name
                 }
             });
+
+            // Add event listener to the select element
+            document.getElementById('polygonList').addEventListener('change', displaySelectedPolygon);
         }
 
         // Save the selected polygon to the database
@@ -117,53 +118,89 @@ const csrftoken = getCookie('csrftoken');
             .catch(error => console.error('Error fetching polygons:', error));
         }
 
-        // Edit the selected polygon's coordinates
-        function editPolygon() {
-            const polygonId = document.getElementById('polygonList').value;
-            if (!polygonId) {
-                alert('Please select a polygon to edit!');
-                return;
-            }
-
-            const newCoordinates = prompt("Enter new coordinates as an array (e.g. [[lat1, lng1], [lat2, lng2], ...]):");
-            if (newCoordinates) {
-                const parsedCoordinates = JSON.parse(newCoordinates);
-                fetch(`/polygon/edit/${polygonId}/`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-
-                    },
-                    body: JSON.stringify({ coordinates: parsedCoordinates })
-                })
-                .then(response => response.json())
-                .then(data => alert('Polygon updated successfully!'))
-                .catch(error => console.error('Error updating polygon:', error));
-            }
+        function getInnerTextFromOptions(sel) {
+          return sel.options[sel.selectedIndex].text;
         }
 
-        // Delete the selected polygon from the map and database
-        function deletePolygon() {
-            const polygonId = document.getElementById('polygonList').value;
+        // Display the selected polygon on the map
+        function displaySelectedPolygon() {
+            const polygonId = getInnerTextFromOptions(document.getElementById('polygonList'));
             if (!polygonId) {
-                alert('Please select a polygon to delete!');
+                alert('Please select a polygon!');
                 return;
             }
 
-            if (confirm('Are you sure you want to delete this polygon?')) {
-                fetch(`/polygon/delete/${polygonId}/`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-
-                    }
-                })
+            fetch(`/get-polygon/${polygonId}/`, {
+                method: 'GET',
+                headers: {
+                    'X-CSRFToken': csrftoken
+                },
+            })
                 .then(response => response.json())
                 .then(data => {
-                    alert('Polygon deleted successfully!');
-                    updatePolygonList();  // Remove the polygon from the dropdown list
+                    // Clear existing polygons from the map
+                    polygons.forEach(polygon => polygon.setMap(null));
+                    polygons = [];
+
+                    // Draw the selected polygon on the map
+                    const polygonCoordinates = data.polygon.coordinates.map(coord => new google.maps.LatLng(coord.lat, coord.lng));
+                    const polygon = new google.maps.Polygon({
+                        paths: polygonCoordinates,
+                        editable: true,
+                        map: map
+                    });
+                    polygons.push(polygon);
                 })
-                .catch(error => console.error('Error deleting polygon:', error));
+                .catch(error => console.error('Error fetching polygon:', error));
+
+            // Edit the selected polygon's coordinates
+            function editPolygon() {
+                const polygonId = document.getElementById('polygonList').value;
+                if (!polygonId) {
+                    alert('Please select a polygon to edit!');
+                    return;
+                }
+
+                const newCoordinates = prompt("Enter new coordinates as an array (e.g. [[lat1, lng1], [lat2, lng2], ...]):");
+                if (newCoordinates) {
+                    const parsedCoordinates = JSON.parse(newCoordinates);
+                    fetch(`/polygon/edit/${polygonId}/`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrftoken
+                        },
+                        body: JSON.stringify({coordinates: parsedCoordinates})
+                    })
+                        .then(response => response.json())
+                        .then(data => alert('Polygon updated successfully!'))
+                        .catch(error => console.error('Error updating polygon:', error));
+                }
+            }
+
+            // Delete the selected polygon from the map and database
+            function deletePolygon() {
+                const polygonId = document.getElementById('polygonList').value;
+                if (!polygonId) {
+                    alert('Please select a polygon to delete!');
+                    return;
+                }
+
+                if (confirm('Are you sure you want to delete this polygon?')) {
+                    fetch(`/polygon/delete/${polygonId}/`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrftoken
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            alert('Polygon deleted successfully!');
+                            updatePolygonList();  // Remove the polygon from the dropdown list
+                        })
+                        .catch(error => console.error('Error deleting polygon:', error));
+                }
             }
         }
     </script>
@@ -182,7 +219,6 @@ const csrftoken = getCookie('csrftoken');
     </div>
 
     <br>
-{#    <button onclick="savePolygon()"></button>#}
     <button onclick="editPolygon()">Edit Polygon</button>
     <button onclick="deletePolygon()">Delete Polygon</button>
 </body>
