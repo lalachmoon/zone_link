@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Polygon</title>
+</head>
+<body>
+    <h1>Edit Polygon: {{ polygon.name }}</h1>
+    <p>Courier: {{ polygon.courier.name }}</p>
+
+    <form method="POST" id="editPolygonForm">
+        {% csrf_token %}
+        <textarea name="coordinates" id="coordinates" rows="10" cols="50">{{ polygon.coordinates }}</textarea>
+        <br>
+        <button type="submit">Save Changes</button>
+    </form>
+
+    <script>
+        const form = document.getElementById('editPolygonForm');
+        form.onsubmit = function(event) {
+            event.preventDefault();
+
+            const coordinates = document.getElementById('coordinates').value;
+
+            fetch(`/polygon/edit/{{ polygon.id }}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: JSON.stringify({ coordinates: JSON.parse(coordinates) })
+            })
+            .then(response => response.json())
+            .then(data => alert(data.message))
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

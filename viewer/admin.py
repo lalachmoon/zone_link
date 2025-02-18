@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Country, County, City, Neighborhood, Street, Courier, CourierStreetRange, Zone
+from .models import Country, County, City, Neighborhood, Street, Courier, CourierStreetRange, Zone, Polygon, \
+    ZoneAllocation
 
 
 @admin.register(Country)
@@ -29,7 +30,11 @@ class StreetAdmin(admin.ModelAdmin):
 
 @admin.register(Courier)
 class CourierAdmin(admin.ModelAdmin):
-    list_display = ['name', 'zone']
+    list_display = ['name']
+
+@admin.register(ZoneAllocation)
+class ZoneAllocationAdmin(admin.ModelAdmin):
+    list_display = ['courier', 'zone']
 
 
 @admin.register(CourierStreetRange)
@@ -40,6 +45,10 @@ class CourierStreetRangeAdmin(admin.ModelAdmin):
 
 @admin.register(Zone)
 class ZoneAdmin(admin.ModelAdmin):
+    list_display = ['name']
+
+@admin.register(Polygon)
+class PolygonAdmin(admin.ModelAdmin):
     list_display = ['name']
 
 

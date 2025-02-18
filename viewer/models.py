@@ -1,5 +1,8 @@
 from django.db.models import CharField, Model, ForeignKey, DO_NOTHING, IntegerField, TextField, CASCADE, SET_NULL, \
     PositiveIntegerField
+from django.db import models
+from django.db.models import JSONField
+import json
 
 
 # Country model
@@ -38,12 +41,12 @@ class Neighborhood(Model):
 
 
 # Zone model
-class Zone(Model):
-    name = CharField(max_length=100)
+class Zone(models.Model):
+    name = models.CharField(max_length=100)
+    coordinates = JSONField()  # To store JSON polygon coordinates
 
     def __str__(self):
-        return self.name
-
+        return f'{self.name}, {self.coordinates}'
 
 # Street model
 class Street(Model):
@@ -57,12 +60,18 @@ class Street(Model):
 
 # Courier model
 class Courier(Model):
-    name = CharField(max_length=100)
-    zone = ForeignKey(Zone, on_delete=SET_NULL, null=True, blank=True)
+    name = CharField(max_length=255)
+    # zone = ForeignKey(Zone, on_delete=SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.name
 
+class ZoneAllocation(Model):
+    zone = ForeignKey(Zone, on_delete=SET_NULL, null=True, blank=True)
+    courier = ForeignKey(Courier, on_delete=SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.zone.name}, {self.courier.name}'
 
 # CourierStreetRange
 class CourierStreetRange(Model):
@@ -83,6 +92,19 @@ class CourierStreetRange(Model):
         help_text='Specify if the courier serves all numbers, only even numbers or only odd numbers'
     )
 
+
     def __str__(self):
         return f'{self.courier.name}, ({self.start_number}-{self.end_number})'
+
+
+# # de setat legatura la Curier pentru poligoane
+class Polygon(models.Model):
+    courier = models.ForeignKey(Zone, related_name='polygons', on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    coordinates = JSONField()  # Stores polygon coordinates as a JSON list
+
+    def __str__(self):
+        return f"{self.name} - {self.courier.name}"
+
+
 

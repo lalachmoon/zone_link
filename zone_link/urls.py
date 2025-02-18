@@ -20,6 +20,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.urls import path
+from viewer import views
 
 urlpatterns = [
     # Admin site
@@ -28,6 +30,8 @@ urlpatterns = [
     # Include app URL configurations
     path('', include('viewer.urls')),  # Routes for viewer app
     path('accounts/', include('accounts.urls')),  # Routes for accounts app
+    path('map/', views.map, name='map'),
+    path('save-polygons/', views.save_polygons, name='save_polygons'),
 ]
 
 # Serve static files during development

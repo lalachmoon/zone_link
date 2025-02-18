@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polygon Manager</title>
+    <style>
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polygon Manager</h1>
+
+    <!-- Form to Add a Polygon -->
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Polygon</button>
+    </form>
+    <h2>Zone Mapping</h2>
+    <div id="map"></div>
+
+    <script>
+        function initMap() {
+            // The map center
+            const center = {45.68499558429541, 25.60427872933882}; // Default: Brasov
+
+            // The map
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 10,
+                center: center,
+            });
+
+            // Fetch polygons dynamically
+            fetch("{% url 'get_polygons' %}")
+                .then(response => response.json())
+                .then(data => {
+                    data.polygons.forEach(polygon => {
+                        // Parse coordinates from JSON field
+                        const polygonCoords = polygon.coordinates.map(coord => ({
+                            lat: coord.lat,
+                            lng: coord.lng,
+                        }));
+
+                        // Draw the polygon
+                        const mapPolygon = new google.maps.Polygon({
+                            paths: polygonCoords,
+                            strokeColor: "#FF0000",
+                            strokeOpacity: 0.8,
+                            strokeWeight: 2,
+                            fillColor: "#FF0000",
+                            fillOpacity: 0.35,
+                        });
+
+                        // Set the polygon on the map
+                        mapPolygon.setMap(map);
+                    });
+                });
+        }
+    </script>
+
+    <!-- Load Google Maps API -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCA0UQ1EUBIqivg6OxBC-vjJZswbpbU1y0&callback=initMap"
+        async
+        defer>
+    </script>
+</body>
+</html>
